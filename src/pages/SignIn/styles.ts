@@ -1,6 +1,10 @@
 import styled from 'styled-components';
+
+
+import {shade} from 'polished'
+
 import SignInBackgroundImg  from '../../assets/sign-in-background.png'
-import {shade} from 'polished';
+
 export const Container =  styled.div`
 height:100vh;
 display:flex;
@@ -27,42 +31,7 @@ form{
         margin-bottom:24px;
     }
     
-    input{
-        
-        background:#232129;
-        border-radius:10px;
-        border:2px solid #232129;
-        padding:16px;
-        width:100%;
-        color:ff9000;
-        &::placeholder{
-            color:#ff9000;
-        }
-        
-        &+input{
-            margin-top:8px;
-        }
-        
-    }
-    
-    button{
-        background:#ff9000;
-        height:56px;
-        border-radius:10px;
-        border:0;
-        padding:0 16px;
-        color:#312e38;
-        margin-top:16px;
-        font-weight: 500;
-        width:100%;
-        
-        transition: background-color 0.2s;
-        
-        &:hover{
-            background: ${shade(0.2,'#ff900')};
-        }
-        
-    }
+  
     
     a{
         
@@ -73,7 +42,7 @@ form{
         transition:color 0.2s;
         
         &:hover{
-            color:${shade(0.2,'#F4ED8')}
+            color:${shade(0.2,'black')}
             
         }
         
@@ -97,7 +66,7 @@ form{
     }
     
     &:hover{
-        color: ${shade(0.2,'#ff900')};
+        color: ${shade(0.2,'black')};
     }
     
 }
