@@ -52,7 +52,7 @@ form{
 
 >a{
     
-    color:#F4ED8;
+    color:#F4ED87;
     display:block;
     margin-top:24px;
     text-decoration:none;

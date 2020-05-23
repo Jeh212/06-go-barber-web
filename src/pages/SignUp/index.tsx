@@ -4,38 +4,55 @@ import {FiMail,FiLock, FiUser, FiArrowLeft} from'react-icons/fi'
 import {Container,Content,Background} from './styles'
 import {FormHandles} from "@unform/core"
 import {Form} from  '@unform/web';
+import getValidationErros from '../../utils/getValidationErros'
+
 import * as Yup from 'yup';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
 
+
+
+
+
+
 const SignUp: React.FC = ()=> {
 
-    const formRef = useRef<FormHandles>(null);
-
+const formRef = useRef<FormHandles>(null); //PEgar metodos do HTML
+    
     
 const handleSubmit = useCallback( async(data:object)=>{
 
  
         //Validações//
         try{
+
+            formRef.current?.setErrors({});
+
             const schema = Yup.object().shape({
-                name:Yup.string().required("Nome Obrigatorio Por Favor"),
-                email:Yup.string().required("E-Mail Obrigatio ou não é valido").email(),
-                password: Yup.string().min(6,"Senha no minimo 6 Digitos"),
+                name:Yup.string()
+                .required("Nome Obrigatorio"),
+                email:Yup.string()
+                .required("E-Mail Obrigatio ")
+                .email('Digite o E-mail'),
+                password: Yup.string()
+                .min(6,"Senha no minimo 6 Digitos"),
             })
 
             await schema.validate(data,
-                {abortEarly:false,
+                {
+                    abortEarly:false,
                 
                 })
 
             
         }catch(err){
             
-            formRef.current?.setErrors({
-                name:'Nome Obrigatorio!',
-            });
+
+            const errors = getValidationErros(err)
+
+            formRef.current?.setErrors(errors);
+
         }
 
     },[]);
