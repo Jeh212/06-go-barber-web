@@ -1,0 +1,9 @@
+=> Context Api
+  -> É utilizada para criar uma variavel global ligação de components dentro da
+    aplicação;
+    
+  -> O usuario pode estar logado em qualquer pagina do aplicativo,sem a necessidade
+     de logar outra vez;
+
+  ->  Context.provider é um COMPONENTE  que dá direitos de todos os components para
+      login;

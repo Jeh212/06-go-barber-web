@@ -1,3 +1,4 @@
+//Dependincias//
 import React ,{useRef,useCallback} from 'react';
 import logoImage from '../../assets/logo.svg'
 import {FiLogIn,FiMail,FiLock} from'react-icons/fi'
@@ -7,15 +8,24 @@ import {FormHandles} from '@unform/core';
 import * as Yup from  'yup';
 import getValidationErros from '../../utils/getValidationErros'
 
+import SignInFormData from './interfaces'
+
+//Components
 import Input from '../../components/input';
 import Button from '../../components/button';
+import {useAuth} from '../../hooks/AuthContext'
+
+
+
 
 const Signin: React.FC = ()=> {
 
 const formRef = useRef<FormHandles>(null); //PEgar metodos do HTML
     
-    
-const handleSubmit = useCallback( async(data:object)=>{
+const {signIn} = useAuth();
+
+
+const handleSubmit = useCallback( async(data:SignInFormData)=>{
 
  
         //Validações//
@@ -36,9 +46,13 @@ const handleSubmit = useCallback( async(data:object)=>{
                 {
                     abortEarly:false,
                 
-                })
+                });
 
-            
+
+            signIn({
+                email:data.email,
+                password:data.password,
+            })
         }catch(err){
             
 
@@ -48,7 +62,7 @@ const handleSubmit = useCallback( async(data:object)=>{
 
         }
 
-    },[]);
+    },[signIn]);
 
 
 
