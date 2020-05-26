@@ -55,10 +55,12 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
             })
         }catch(err){
             
+            if(err instanceof Yup.ValidationError){
+                const errors = getValidationErros(err)
 
-            const errors = getValidationErros(err)
-
-            formRef.current?.setErrors(errors);
+                formRef.current?.setErrors(errors);
+            }
+           
 
         }
 
