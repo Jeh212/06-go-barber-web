@@ -1,96 +1,68 @@
-import React, {createContext, useCallback,useState,useContext} from 'react'
+import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/apiCliente';
 
-interface SignInCredentials{
-    email:string;
-    password:string;
+interface SignInCredentials {
+	email: string;
+	password: string;
 }
-
 
 interface AuthContextData {
-    user:object;
-    signIn(credentials:SignInCredentials):Promise<void>;
-    signOut():void;
-
+	user: object;
+	signIn(credentials: SignInCredentials): Promise<void>;
+	signOut(): void;
 }
 
-interface AuthState{
-    token:string;
-    user:object;
+interface AuthState {
+	token: string;
+	user: object;
 }
-export const AuthContext = createContext<AuthContextData>( 
-    {} as AuthContextData,
-    );
-
-
-
+export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 //Função Context de Chamada do Signin//
-export const AuthProvider: React.FC = ({children})=>{
+export const AuthProvider: React.FC = ({ children }) => {
+	//Só é executado quando o usario entra de novo no APP
+	const [ data, setData ] = useState<AuthState>(() => {
+		const token = localStorage.getItem('@GoBarber:token');
+		const user = localStorage.getItem('@GoBarber:user');
 
-    //Só é executado quando o usario entra de novo no APP
-    const [data,setData] = useState<AuthState>(()=>{
+		if (token && user) {
+			return { token, user: JSON.parse(user) };
+		}
 
-       
-        const token = localStorage.getItem('@GoBarber:token');
-        const user = localStorage.getItem('@GoBarber:user');
+		return {} as AuthState;
+	});
 
-        if(token && user){
-            return {token,user:JSON.parse(user)};
-        }
+	const signIn = useCallback(async ({ email, password }) => {
+		//Faz chamada Api
+		const response = await api.post('sessions', {
+			email,
+			password
+		});
 
-        return {} as AuthState;
+		const { token, user } = response.data;
 
-    })
+		localStorage.setItem('@GoBarber:token', token);
+		localStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
+		setData({ token, user });
+	}, []);
 
-    const signIn = useCallback( async ( {email,password} )=>{
+	const signOut = useCallback(() => {
+		localStorage.removeItem('@GoBarber:token');
+		localStorage.removeItem('@GoBarber:user');
 
-        //Faz chamada Api
-        const response = await api.post('sessions',{
-            email,
-            password,
-        });
- 
-            
-        const {token,user} = response.data;
+		setData({} as AuthState);
+	}, []);
 
-        localStorage.setItem('@GoBarber:token',token);
-        localStorage.setItem('@GoBarber:user',JSON.stringify(user));
-
-
-        setData({token,user})
-    },[]);
-    
-    
-    const signOut = useCallback( ()=>{
-
-        localStorage.removeItem('@GoBarber:token');
-        localStorage.removeItem('@GoBarber:user');
-
-        setData({} as AuthState);
-    },[]);
-
-
-
-
-    return(
-        <AuthContext.Provider value={{user:data.user, signIn,signOut}}>
-
-            {children}
-
-        </AuthContext.Provider>
-    )
+	return <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>{children}</AuthContext.Provider>;
 };
 
+export function useAuth(): AuthContextData {
+	const context = useContext(AuthContext);
 
+	if (!context) {
+		throw new Error('useAuth must be used within an AuthoProvider');
+	}
 
-export  function useAuth(): AuthContextData{
-    const context =  useContext(AuthContext)
-
-    if(!context){
-        throw new Error('useAuth must be used within an AuthoProvider')
-    }
-
-    return context;
+	return context;
 }

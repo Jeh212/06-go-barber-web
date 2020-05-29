@@ -2,9 +2,10 @@
 import React ,{useRef,useCallback} from 'react';
 import logoImage from '../../assets/logo.svg'
 import {FiLogIn,FiMail,FiLock} from'react-icons/fi'
-import {Container,Content,Background} from './styles'
+import {Container,Content,Background,AnimationContainer} from './styles'
 import {Form} from '@unform/web';
 import {FormHandles} from '@unform/core';
+import {Link} from 'react-router-dom'
 import * as Yup from  'yup';
 import getValidationErros from '../../utils/getValidationErros'
 
@@ -14,15 +15,15 @@ import SignInFormData from './interfaces'
 import Input from '../../components/input';
 import Button from '../../components/button';
 import {useAuth} from '../../hooks/AuthContext'
-
-
+import {useToast} from '../../hooks/ToastContex'
 
 
 const Signin: React.FC = ()=> {
 
 const formRef = useRef<FormHandles>(null); //PEgar metodos do HTML
-    
+
 const {signIn} = useAuth();
+const {addToast}= useToast();
 
 
 const handleSubmit = useCallback( async(data:SignInFormData)=>{
@@ -49,7 +50,7 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
                 });
 
 
-            signIn({
+            await signIn({
                 email:data.email,
                 password:data.password,
             })
@@ -59,22 +60,27 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
                 const errors = getValidationErros(err)
 
                 formRef.current?.setErrors(errors);
+                
+                return
             }
            
+            addToast({
+                type: 'Error',
+                title:'Erro na Autenticação',
+                description:'Ocorreu um erro ao fazer login, chegue as credenciais'
+
+            });
 
         }
 
-    },[signIn]);
-
-
-
-
+    },[signIn, addToast]);
 
     return(
 
     <Container>
     
     <Content>
+    <AnimationContainer>
     
     <img src={logoImage} alt="Gobarber"/>
     
@@ -89,10 +95,11 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
     <a href="forgot">Esqueci minha senha</a>
     
     </Form>
-        <a href="login">
+        <Link to="/signup">
         <FiLogIn/>
         Criar Conta
-        </a>
+    </Link>
+    </AnimationContainer>
         </Content>
         
         <Background/>
