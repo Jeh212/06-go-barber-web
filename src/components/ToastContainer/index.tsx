@@ -4,6 +4,7 @@ import { Container } from './styles';
 import Toast from './Toast';
 import { ToastMessage } from '../../hooks/ToastContex';
 
+
 interface ToastContainerProps {
 	messages: ToastMessage[];
 }

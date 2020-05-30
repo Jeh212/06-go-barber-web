@@ -17,10 +17,11 @@ export const Container = styled.button`
     color:#312e38;
 
     margin-top: 16px;
+    
 
     font-weight:500;
 
-    width: 100%;
+    width: 110%;
     
     
     transition: background-color 0.2s;

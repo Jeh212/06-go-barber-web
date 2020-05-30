@@ -20,6 +20,7 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 //Função Context de Chamada do Signin//
 export const AuthProvider: React.FC = ({ children }) => {
+
 	//Só é executado quando o usario entra de novo no APP
 	const [ data, setData ] = useState<AuthState>(() => {
 		const token = localStorage.getItem('@GoBarber:token');

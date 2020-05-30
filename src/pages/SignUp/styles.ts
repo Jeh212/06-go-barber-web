@@ -52,7 +52,8 @@ animation:${appearFromRight} 1s;
 
 
 form{
-    margin:80px 0;
+
+    margin:80px;
     width:340px;
     text-align:center;
     
@@ -61,7 +62,6 @@ form{
     }
     
   
-    
     a{
         
         color:#ff9000;
@@ -71,7 +71,7 @@ form{
         transition:color 0.2s;
         
         &:hover{
-            color:${shade(0.2, 'black')}
+            color:${shade(0.2, 'white')}
             
         }
         
@@ -79,19 +79,20 @@ form{
     
 }
 
+
 >a{
-    
+    display:flex;
     color:#F4ED87;
     display:block;
     margin-top:24px;
     text-decoration:none;
     transition:color 0.2s;
     
-    display:flex;
+   
     align-items:center;
     
-    svg{
-        margin-right:16px;
+    svg {
+        margin-right:18px;
     }
     
     &:hover{
@@ -102,11 +103,11 @@ form{
 
 `;
 
-
-
 export const Background =  styled.div`
 
 flex:1;
 background:url(${SignUpBackgroundImg}) no-repeat center;
+
 background-size:cover;
+
 `;

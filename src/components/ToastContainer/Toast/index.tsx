@@ -3,7 +3,7 @@ import React,{useEffect} from 'react';
 import { FiAlertCircle, FiXCircle,FiCheckCircle,FiInfo } from 'react-icons/fi';
 import {ToastMessage, useToast} from '../../../hooks/ToastContex'; 
 import {Container} from './styles'
-import { userInfo } from 'os';
+
 
 interface ToastProps{
   message:ToastMessage;
@@ -30,7 +30,7 @@ const Toast:React.FC<ToastProps> = ({message,style}) =>{
   },[message,removeToast]);
 
 return (
-<Container  type={message.type}  hasDescription={!!message.description} style={style}>
+<Container  type={message.type}    hasdescription={message.description ? 1 : 0} style={style}>
 {icons[message.type|| 'info']}
 					<div>
 						<strong>{message.title}</strong>

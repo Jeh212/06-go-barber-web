@@ -3,7 +3,7 @@ import {animated} from  'react-spring';
 
 interface ContainerProps{
   type?:'Success' | 'Error' | 'info';
-  hasDescription:boolean;
+  hasdescription:number;
 }
 
 
@@ -81,7 +81,7 @@ button{
   color:inherit;
 }
 
-${(props)=>!props.hasDescription && css`
+${(props)=>!props.hasdescription && css`
 
   align-items = center;
 
