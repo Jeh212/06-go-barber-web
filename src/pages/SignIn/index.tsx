@@ -28,14 +28,14 @@ const {addToast}= useToast();
 
 const handleSubmit = useCallback( async(data:SignInFormData)=>{
 
- 
+
         //Validações//
         try{
 
             formRef.current?.setErrors({});
 
             const schema = Yup.object().shape({
-               
+
                 email:Yup.string()
                 .required("E-Mail Obrigatio ")
                 .email('Digite o E-mail'),
@@ -46,7 +46,7 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
             await schema.validate(data,
                 {
                     abortEarly:false,
-                
+
                 });
 
 
@@ -55,15 +55,15 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
                 password:data.password,
             })
         }catch(err){
-            
+
             if(err instanceof Yup.ValidationError){
                 const errors = getValidationErros(err)
 
                 formRef.current?.setErrors(errors);
-                
+
                 return
             }
-           
+
             addToast({
                 type: 'Error',
                 title:'Erro na Autenticação',
@@ -78,22 +78,22 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
     return(
 
     <Container>
-    
+
     <Content>
     <AnimationContainer>
-    
+
     <img src={logoImage} alt="Gobarber"/>
-    
+
     <Form ref={formRef} onSubmit={handleSubmit}>
-    
+
     <h1>Faça o seu Login</h1>
     <Input name="email" icon={FiMail} placeholder="E-mail"/>
-    <Input name="password" icon={FiLock} type="password" placeholder="Senha"/> 
+    <Input name="password" icon={FiLock} type="password" placeholder="Senha"/>
 
     <Button type="submit">Entrar</Button>
 
-    <a href="forgot">Esqueci minha senha</a>
-    
+    <Link to="/forgot-password">Esqueci minha senha</Link>
+
     </Form>
         <Link to="/signup">
         <FiLogIn/>
@@ -101,10 +101,10 @@ const handleSubmit = useCallback( async(data:SignInFormData)=>{
     </Link>
     </AnimationContainer>
         </Content>
-        
+
         <Background/>
     </Container>
     );
 }
-    
+
     export default Signin;
